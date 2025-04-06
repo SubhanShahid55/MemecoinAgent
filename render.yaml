@@ -1,0 +1,17 @@
+services:
+  - type: web
+    name: memecoin
+    env: node
+    buildCommand: npm install && npm run build
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PAYPAL_CLIENT_ID
+        value: your_paypal_client_id_here
+      - key: PAYPAL_CLIENT_SECRET
+        value: your_paypal_client_secret_here
+      - key: STRIPE_SECRET_KEY
+        value: your_stripe_secret_key_here
+      - key: NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
+        value: your_stripe_publishable_key_here 
