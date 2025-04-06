@@ -2,6 +2,12 @@
   "version": 2,
   "buildCommand": "npm run build",
   "devCommand": "npm run dev",
-  "installCommand": "npm install",
-  "framework": "nextjs"
+  "installCommand": "npm install --legacy-peer-deps",
+  "framework": "nextjs",
+  "env": {
+    "PAYPAL_CLIENT_ID": "Aas2med3Ch9YjkHRTHx_QtNo1Xa5liC2D6yDa3QCAy9NSjbiMeETGqdQxDSmpxZPGAhnAwIaLGGNHX5y",
+    "PAYPAL_CLIENT_SECRET": "EJ5Anqo6la4Jz2kFwACfCRjB3QlU-3vLjZSQEZEO2U69sqM5kDttBcJvA09EwQhzzkD8PtcLDapajVI6",
+    "NODE_ENV": "production",
+    "NEXT_PUBLIC_BASE_URL": "https://memecoinsagent-qjrtorr6u-subhanshahid55s-projects.vercel.app"
+  }
 } 

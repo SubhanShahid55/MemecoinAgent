@@ -61,7 +61,13 @@ export default function PaymentMethods({ amount, itemName, onSuccess, onCancel, 
       const response = await fetch("/api/paypal", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ amount, email, name }),
+        body: JSON.stringify({ 
+          amount, 
+          email, 
+          name,
+          // Add a timestamp to help with debugging
+          timestamp: new Date().toISOString()
+        }),
       })
       
       const data = await response.json()
@@ -70,22 +76,33 @@ export default function PaymentMethods({ amount, itemName, onSuccess, onCancel, 
       
       if (!response.ok) {
         console.error("Error response from PayPal API:", data);
-        throw new Error(data.error || "Failed to initialize PayPal")
+        
+        // Show the detailed error from PayPal if available
+        if (data.error && typeof data.error === 'string') {
+          throw new Error(data.error);
+        } else if (data.error && data.error.error_description) {
+          throw new Error(`${data.error.error}: ${data.error.error_description}`);
+        } else {
+          throw new Error("Failed to initialize PayPal checkout");
+        }
       }
       
       // Validate the response contains the expected fields
       if (!data.approvalUrl) {
         console.error("Invalid response from PayPal API:", data);
-        throw new Error("No approval URL returned from PayPal")
+        throw new Error("No approval URL returned from PayPal");
       }
+      
+      // Log the success and redirect
+      console.log("Redirecting to PayPal approval URL:", data.approvalUrl);
       
       // Redirect to PayPal's approval URL
       window.location.href = data.approvalUrl;
-    } catch (error) {
-      console.error("Error initializing PayPal payment:", error)
-      setError(error instanceof Error ? error.message : "Failed to initialize PayPal payment")
+    } catch (error: any) {
+      console.error("Error initializing PayPal payment:", error);
+      setError(error instanceof Error ? error.message : "Failed to initialize PayPal payment");
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
   }
 
